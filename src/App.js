@@ -3,20 +3,28 @@ import { Routes, Route } from 'react-router-dom';
 import React, { Component } from 'react';
 import Home from './views/Home';
 import Search from './views/Search';
+import Provider, { MyContext } from './Provider/';
 
-class App extends React.Component {
- 
-
+class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Routes>
-          <Route path={"/search"} element={<Search />} />
-          <Route path={"/"} element={<Home />} />
-        </Routes>
+        <Provider>
+          <Routes>
+            <Route path={'/search'} element={<Search />} />
+            <Route
+              path={'/'}
+              render={() => (
+                <MyContext.Consumer>
+                  {context => <Home {...context} />}
+                </MyContext.Consumer>
+              )}
+            />
+          </Routes>
+        </Provider>
       </div>
     );
   }
 }
 
-export default App;
+export default BooksApp;
